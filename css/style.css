@@ -1,0 +1,42 @@
+/* Estilos de validación */
+.is-invalid {
+    border: 2px solid red;
+}
+
+.is-valid {
+    border: 2px solid green;
+}
+
+/* Estiolos Modo oscuro*/
+body.modo-oscuro {
+    background-color: #343434;
+    color: #ffffff !important; 
+    transition: background-color 0.5s ease-in-out;
+    
+}
+
+.modo-oscuro .bg-white {
+    background-color: #1e1e1e !important;
+    color: #ffffff;
+}
+
+.modo-oscuro .text-black {
+    color: #ffffff !important;
+}
+
+.modo-oscuro .table {
+    color: #ffffff; 
+}
+
+.modo-oscuro .form-control {
+    background-color: #373737;
+    color: #ffffff;
+    border-color: #444;
+}
+
+body.modo-oscuro .border-light-subtle {
+    background-color: #1e1e1e;
+    border-color: #343434 !important;
+}
+
+

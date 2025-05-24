@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title>PRIMER PARCIAL</title>
+        
+        <link href="./img/utnLogo.png" rel="icon" type="image/png" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+        <link rel="stylesheet" href="./css/style.css" />
+        <script src="./js/manejadora.js"></script>
+    </head>
+
+    <body class="text-black">
+        <!-- ==header== -->
+        <header class="bg-primary shadow-sm position-sticky top-0 z-3">
+            <div class="container-fluid d-flex align-items-center justify-content-between py-2 px-4">
+                <div class="d-flex align-items-center">
+                    <img src="img/utnLogo.png" alt="UTN Logo" height="40" class="me-2">
+                    <span class="text-white h5 mb-0 me-2">Pinturería UTN</span>
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="#inicio">Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="#seccionFormulario">Formulario</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="#seccionListado">Listado</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="#seccionEstadisticas">Estadísticas</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="d-flex align-items-center ms-auto">
+                    <button id="btnExportar" class="btn btn-outline-light me-2">
+                        <i class="bi bi-file-earmark-arrow-down"></i> Exportar CSV
+                    </button>
+                    <button id="btnModoOscuro" class="btn btn-outline-light">
+                        <i class="bi bi-moon"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- ==Seccion cuadro de bienvenida== -->
+        <section id="inicio" class="seccion container mt-5 mb-5 text-center">
+            <h1 class="fw-bold">Sistema de Gestión de Pinturas</h1>
+            <h2 class="text-secondary mb-5">Ramirez, Luca</h2>
+
+            <div class="row justify-content-center">
+                <div class="col-md-10">
+                    <div class="row shadow rounded border border-light-subtle p-5 mb-3">
+                        <h3 class="fw-bold">Bienvenido al Sistema de Gestión de Pinturas</h3>
+                        <h4 class="text-secondary mb-4">Esta aplicación permite gestionar el inventario de pinturas interactuando con una API REST</h4>
+                        <div class="col-md-6">
+                            <div class="bg-primary text-white rounded-top px-3 py-2 text-start mt-2">
+                                <i class="bi bi-gear-fill me-2"></i> Funcionalidades
+                            </div>
+                            <ul class="list-group list-group-flush border rounded-bottom text-start">
+                                <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i> Agregar nuevas pinturas</li>
+                                <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i> Modificar pinturas existentes</li>
+                                <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i> Eliminar pinturas</li>
+                                <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i> Filtrar por marca y precio</li>
+                                <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i> Exportar datos a CSV</li>
+                            </ul>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="bg-primary text-white rounded-top px-3 py-2 text-start mt-2">
+                                <i class="bi bi-bar-chart-fill me-2"></i> Estadísticas Disponibles
+                            </div>
+                            <ul class="list-group list-group-flush border rounded-bottom text-start">
+                                <li class="list-group-item"><i class="bi bi-graph-up-arrow text-info me-2"></i> Precio promedio general</li>
+                                <li class="list-group-item"><i class="bi bi-graph-up-arrow text-info me-2"></i> Precio promedio por marca</li>
+                                <li class="list-group-item"><i class="bi bi-palette2 text-info me-2"></i> Marca más común</li>
+                                <li class="list-group-item"><i class="bi bi-currency-dollar text-info me-2"></i> Pintura más cara</li>
+                                <li class="list-group-item"><i class="bi bi-box-seam text-info me-2"></i> Valor total del inventario</li>
+                            </ul>
+                        </div>
+                    </div>    
+                </div>
+            </div>
+        </section>
+
+        <!-- ==Seccion formulario== -->
+        <section id="seccionFormulario" class="seccion container mt-5">
+            <div class="shadow rounded bg-white p-4">
+                <div class="col-12 d-flex justify-content-center">
+                    <div class="col-md-7">
+                        <div class="bg-primary text-white rounded-top px-3 py-2 text-center mt-5"><i>Formulario</i></div>
+                        <div id="alertaUsuario" class="alert d-none" role="alert" aria-live="assertive"></div>
+                        <form id="frmFormulario" role="form" class="bg-white shadow rounded p-4 needs-validation mb-5" novalidate>
+                            <div class="mb-3"><label for="inputID" class="form-label">ID:</label><input type="text" class="form-control" id="inputID" required readonly></div>
+                            <div class="mb-3"><label for="inputMarca" class="form-label">Marca:</label><input type="text" class="form-control" id="inputMarca" required></div>
+                            <div class="mb-3"><label for="inputPrecio" class="form-label">Precio (USD):</label><input type="number" class="form-control" id="inputPrecio" min="50" max="500" step="50" required></div>
+                            <div class="mb-3"><label for="inputColor" class="form-label">Color:</label><input type="color" class="form-control" id="inputColor" value="#ff0000" required></div>
+                            <div class="mb-3"><label for="inputCantidad" class="form-label">Cantidad:</label><input type="number" class="form-control" id="inputCantidad" min="1" max="400"></div>
+                            <div class="d-flex justify-content-center gap-5 mt-4">
+                                <button type="button" id="btnAgregar" class="btn btn-primary">Agregar</button>
+                                <button type="reset" class="btn btn-danger">Limpiar</button>
+                                <button type="button" id="btnModificar" class="btn btn-warning">Modificar</button>
+                            </div>
+                        </form> 
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==Seccion listado== -->
+        <section id="seccionListado" class="seccion container mt-5">
+            <div class="shadow rounded bg-white p-4">
+                <div class="row align-items-end justify-content-between mt-4 mb-3">
+                    <div class="col-md-4">
+                        <label for="selectMarca" class="form-label">Filtrar por marca:</label>
+                        <select id="selectMarca" class="form-select">
+                            <option value="todas">Todas</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="selectOrden" class="form-label">Ordenar por precio:</label>
+                        <select id="selectOrden" class="form-select">
+                            <option value="ninguno">Sin orden</option>
+                            <option value="asc">Menor a mayor</option>
+                            <option value="desc">Mayor a menor</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 text-end">
+                        <button id="btnPromedio" class="btn btn-info text-white bg-primary"><i class="bi bi-calculator me-1"></i> Calcular promedio de precios</button>
+                    </div>
+                </div>
+                <div id="resultadoPromedio" class="alert alert-secondary" style="display: none;"></div>
+                <h3 class="mb-3 text-center text-primary"><i class="text-primary-emphasis fw-semibold"></i>Listado de Pinturas</h3>
+                <div class="list-group" id="divListado">
+                <!-- aca esa el istado -->
+                </div>
+        </section>
+
+        <!-- ==Seccion estadísticas== -->
+        <section id="seccionEstadisticas" class="seccion container mt-5 mb-5">
+            <div class="shadow rounded border bg-white p-4">
+                <h2 class="mb-4 text-center text-primary">
+                    <i class="bi bi-graph-up-arrow me-2"></i> Estadísticas
+                </h2>
+
+                <div class="d-flex justify-content-center mb-3">
+                    <button id="btnEstadisticas" class="btn btn-primary">
+                        <i class="bi bi-bar-chart-line"></i> Calcular estadísticas
+                    </button>
+                </div>
+
+                <div id="contenedorEstadisticas" class="row text-start" style="display: none;">
+                    <div class="col-md-6">
+                        <div class="bg-success text-white rounded-top px-3 py-2">
+                            <i class="bi bi-info-circle me-1"></i> Información general
+                        </div>
+                        <ul class="list-group rounded-bottom mb-3">
+                            <li class="list-group-item">
+                                <strong>Total de pinturas:</strong> <span id="statTotal"></span>
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Marca más común:</strong> <span id="statMarcaMasComun"></span>
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Pintura más cara:</strong> <span id="statPinturaMasCara"></span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="bg-info text-white rounded-top px-3 py-2">
+                            <i class="bi bi-bar-chart-fill me-1"></i> Promedios y totales
+                        </div>
+                        <ul class="list-group rounded-bottom mb-3">
+                            <li class="list-group-item">
+                                <strong>Promedio general:</strong> $<span id="statPromedioGeneral"></span>
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Promedio por marca:</strong>
+                                <ul id="statPromedioPorMarca" class="mt-2 ps-3"></ul>
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Valor total del inventario:</strong> $<span id="statValorTotalInventario"></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </body>
+</html>
